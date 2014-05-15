@@ -17,11 +17,10 @@ parseOp "swap" = swap
 parseOp "drop" = drop
 parseOp "depth" = depth
 parseOp "pick" = pick
---parseOp a = id read a :: [Int]
+parseOp a = ler a
 
--- en cas d'un entier comme argument, l'ajuter a quelle pile?
--- parseOp a = (read a :: Int) : restePile
-
+ler :: String -> Stack -> Stack
+ler a l = (read a :: Int) : l
 
 mais :: Stack -> Stack
 mais [] = []
@@ -63,7 +62,6 @@ eval :: Stack -> [Operator] -> Stack
 eval a [] = a
 eval a (h: t) = eval (h a) t 
 
---ler :: Operator
 
 repl :: Stack -> IO ()
 repl stack = do
