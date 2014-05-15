@@ -1,6 +1,7 @@
 module RPN where
 
 import Prelude hiding (drop)
+import System.IO
 
 type Stack = [Int]
 
@@ -15,6 +16,8 @@ parseOp "dup" = dup
 parseOp "swap" = swap
 parseOp "drop" = drop
 parseOp "depth" = depth
+parseOp "pick" = pick
+--parseOp a = id read a :: [Int]
 
 -- en cas d'un entier comme argument, l'ajuter a quelle pile?
 -- parseOp a = (read a :: Int) : restePile
@@ -60,4 +63,17 @@ eval :: Stack -> [Operator] -> Stack
 eval a [] = a
 eval a (h: t) = eval (h a) t 
 
+--ler :: Operator
 
+repl :: Stack -> IO ()
+repl stack = do
+  putStr "> "
+  hFlush stdout
+  line <- getLine
+  newstack <- return $ eval stack (parse line)
+  putStrLn $ show $ reverse newstack
+  repl newstack
+main = repl []
+
+parse :: String -> [Operator]
+parse a = map parseOp $ words a
