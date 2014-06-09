@@ -19,7 +19,7 @@ canonize (Prob l) = Prob $ partition
 
 probability :: Eq a => a -> Prob a -> Ratio Int
 --probability v (Prob l) = maybe 0 id (lookup v l)
-probability p (Prob l) = 
+probability p (Prob l) = canonize l
 
 
 
